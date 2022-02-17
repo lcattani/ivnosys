@@ -25,5 +25,30 @@
         {{ include('lawsuits/result_details.html.twig', { player: 'plaintiff' }) }}
         {{ include('lawsuits/result_details.html.twig', { player: 'defendant' }) }}
     </ul>
+
+    {% if (result['plaintiff']['joker'] == true) or (result['defendant']['joker'] == true) %}
+        <b>Joker analysis:</b>
+        <ul>
+            {{ include('lawsuits/joker_details.html.twig', { player: 'plaintiff' }) }}
+            {{ include('lawsuits/joker_details.html.twig', { player: 'defendant' }) }}
+        {#
+        {% if result['plaintiff']['joker'] == true %}
+            {% if result['plaintiff']['joker_analysis']['found']  == true %}
+                {% if result['plaintiff']['winner'] <= 0 %}
+                    Plaintiff need at least a '{{ result['plaintiff']['joker_analysis']['name'] }}' signature to win, if they get it the new signatures will be '{{ result['plaintiff']['joker_analysis']['new_signature'] }}' and they will get {{ result['plaintiff']['joker_analysis']['new_points'] }} point in total.
+                {% else %}
+                    Plaintiff won but can get {{ result['plaintiff']['joker_analysis']['new_points'] }} point in total with a '{{ result['plaintiff']['joker_analysis']['name'] }}' signature and they new signatures will be '{{ result['plaintiff']['joker_analysis']['new_signature'] }}'.
+                {% endif %}                
+            {% else %}
+                Plaintiff can´t win.
+            {% endif %}
+        {% endif %}
+        #}
+        </ul>
+    {% endif %}
+
+
+
+
 </div>
 {% endblock %}

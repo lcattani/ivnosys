@@ -1,0 +1,11 @@
+{% if result[player]['joker'] == true %}
+{% if result[player]['joker_analysis']['found']  == true %}
+    {% if result[player]['winner'] <= 0 %}
+        <li>{{ player|capitalize }} need at least a '{{ result[player]['joker_analysis']['name'] }}' signature to win, if they get it the new signatures will be '{{ result[player]['joker_analysis']['new_signature'] }}' and they will get {{ result[player]['joker_analysis']['new_points'] }} point in total 😀.</li>
+    {% else %}
+        <li>{{ player|capitalize }} won but can get {{ result[player]['joker_analysis']['new_points'] }} point in total with a '{{ result[player]['joker_analysis']['name'] }}' signature and they new signatures will be '{{ result[player]['joker_analysis']['new_signature'] }}' 👀.</li>
+    {% endif %}                
+{% else %}
+    <li>{{ player|capitalize }} can´t win 😢.</li>
+{% endif %}
+{% endif %}
