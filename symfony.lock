@@ -250,9 +250,6 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "symfony/annotations-pack": {
-        "version": "v1.0.0"
-    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {

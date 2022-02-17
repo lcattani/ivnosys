@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b424a6fe9a838b92e56031ab29b51d2",
+    "content-hash": "5c12c1e0e9002bf92da50719571503e9",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -80,16 +80,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.12.1",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8"
+                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/4cf401d14df219fa6f38b671f5493449151c9ad8",
-                "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/331b4d5dbaeab3827976273e9356b3b453c300ce",
+                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce",
                 "shasum": ""
             },
             "require": {
@@ -159,7 +159,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.12.1"
+                "source": "https://github.com/doctrine/cache/tree/2.1.1"
             },
             "funding": [
                 {
@@ -175,7 +175,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-17T14:39:21+00:00"
+            "time": "2021-07-17T14:49:29+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -2846,38 +2846,6 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.6"
             },
             "time": "2022-01-14T11:51:13+00:00"
-        },
-        {
-            "name": "symfony/annotations-pack",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/annotations-pack.git",
-                "reference": "18c762ffefaede85efa911e840ab2eb0e33993b5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/annotations-pack/zipball/18c762ffefaede85efa911e840ab2eb0e33993b5",
-                "reference": "18c762ffefaede85efa911e840ab2eb0e33993b5",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/annotations": "^1.4",
-                "doctrine/cache": "^1.6",
-                "php": "^7.0"
-            },
-            "type": "metapackage",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Doctrine annotations with cache",
-            "support": {
-                "issues": "https://github.com/symfony/annotations-pack/issues",
-                "source": "https://github.com/symfony/annotations-pack/tree/master"
-            },
-            "abandoned": true,
-            "time": "2017-06-14T23:37:05+00:00"
         },
         {
             "name": "symfony/apache-pack",
