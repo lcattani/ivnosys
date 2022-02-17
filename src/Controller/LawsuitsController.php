@@ -10,9 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 class LawsuitsController extends AbstractController
 {
 
-    private $plaintiff; 
-    private $defendant;
-
+    private array $plaintiff; 
+    private array $defendant;
 
     /**
      * @Route("/lawsuits", name="lawsuits")
@@ -20,24 +19,23 @@ class LawsuitsController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $this->plaintiff = $request->query->get('plaintiff');
-        $this->defendant = $request->query->get('defendant');
+        $plaintiff = $request->query->get('plaintiff');
+        $defendant = $request->query->get('defendant');
 
-        $this->process();
+        $this->process($plaintiff, $defendant);
 
         return $this->render('lawsuits/index.html.twig', [
             'controller_name' => 'LawsuitsController',
             'result' => ['plaintiff' => $this->plaintiff, 'defendant' => $this->defendant],
         ]);
 
-
     }
 
-    private function process()
+    private function process(string $plaintiff, string $defendant)
     {
 
-        $this->plaintiff = $this->parseSignatures($this->plaintiff);
-        $this->defendant = $this->parseSignatures($this->defendant);
+        $this->plaintiff = $this->parseSignatures($plaintiff);
+        $this->defendant = $this->parseSignatures($defendant);
 
         $this->setWinner($this->plaintiff, $this->defendant);
 
