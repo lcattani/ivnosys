@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Service\RolsService;
 
 class LawsuitsCommand extends Command
 {
@@ -38,11 +39,11 @@ class LawsuitsCommand extends Command
             // ...
         }*/
 
-        $controler = new LawsuitsController();
+        $controler = new LawsuitsController(new RolsService());
         $result = $controler->getPlainResult($plaintiff, $defendant);
         $io->info($result);
 
-        $io->success('Pass --help to see your options.');
+        $io->success('FInalizado. --help para mas opciones.');
 
         return Command::SUCCESS;
     }

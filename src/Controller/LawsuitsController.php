@@ -19,7 +19,6 @@ class LawsuitsController extends AbstractController
     {
 
         $this->rolsService = $lawsuitsService;
-
     }
 
     /**
@@ -28,8 +27,8 @@ class LawsuitsController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $plaintiff = $request->query->get('plaintiff');
-        $defendant = $request->query->get('defendant');
+        $plaintiff = strtoupper($request->query->get('plaintiff'));
+        $defendant = strtoupper($request->query->get('defendant'));
 
         $this->process($plaintiff, $defendant);
 
@@ -42,7 +41,7 @@ class LawsuitsController extends AbstractController
     public function getPlainResult(string $plaintiff, string $defendant): string
     {
 
-        $this->process($plaintiff, $defendant);
+        $this->process(strtoupper($plaintiff), strtoupper($defendant));
 
         // Renderizo en una variable
         $loader = new \Twig\Loader\FilesystemLoader('templates/');
@@ -73,7 +72,7 @@ class LawsuitsController extends AbstractController
             $result .= "{$match_title[1]}\n";
             if (isset($match_joker[0])) {
                 $result .= "  - {$match_joker[0]}\n";
-            } 
+            }
             if (isset($match_joker[1])) {
                 $result .= "  - {$match_joker[1]}";
             }
@@ -91,7 +90,6 @@ class LawsuitsController extends AbstractController
         }
 
         return $data;
-        
     }
 
     private function process(string $plaintiff, string $defendant)
