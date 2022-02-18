@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class TestconsoleCommand extends Command
+class LawsuitsCommand extends Command
 {
     protected static $defaultName = 'lawsuits';
     protected static $defaultDescription = 'We are in the era of "lawsuits", everyone wants to go to court with their lawyer Saul and try to get a lot of dollars as if they were raining over Manhattan.';

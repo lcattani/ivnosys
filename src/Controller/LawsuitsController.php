@@ -51,25 +51,38 @@ class LawsuitsController extends AbstractController
 
         preg_match_all("/<li class='result'>(.*?)<\/li>/s", $result, $match_result);
         $match_result = $this->removeNonAlphanumeric($match_result[1]);
-        
+
         preg_match_all("/<li class='joker'>(.*?)<\/li>/s", $result, $match_joker);
         $match_joker = $this->removeNonAlphanumeric($match_joker[1]);
 
-        // Formo respueste en modo texto
-        $result = "{$match_title[0]}\n  - {$match_result[0]}\n  - {$match_result[1]}\n\n{$match_title[1]}\n  - {$match_joker[0]}\n  - {$match_joker[1]}";
-        
+        // Formo respuesta en modo texto
+        $result = "";
+        $result .= "{$match_title[0]}\n";
+        $result .= "  - {$match_result[0]}\n";
+        $result .= "  - {$match_result[1]}\n\n";
+        if (isset($match_joker[0]) || isset($match_joker[1])) {
+            $result .= "{$match_title[1]}\n";
+            if (isset($match_joker[0])) {
+                $result .= "  - {$match_joker[0]}\n";
+            } 
+            if (isset($match_joker[1])) {
+                $result .= "  - {$match_joker[1]}";
+            }
+        }
+
         return $result;
     }
 
-    private function removeNonAlphanumeric(array $data)
+    private function removeNonAlphanumeric(array $data): array
     {
 
-        foreach($data as &$value) {
-            $value = preg_replace("/[^A-Za-z0-9 ]/", '', $value);
+        return $data;
+        foreach ($data as &$value) {
+            $value = preg_replace("/[^A-Za-z0-9# ]/", '', $value);
         }
 
         return $data;
-
+        
     }
 
     private function process(string $plaintiff, string $defendant)
