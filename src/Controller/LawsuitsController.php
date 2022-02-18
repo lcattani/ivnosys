@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LawsuitsController extends AbstractController
 {
 
-    private array $plaintiff; 
+    private array $plaintiff;
     private array $defendant;
 
     /**
@@ -28,6 +28,47 @@ class LawsuitsController extends AbstractController
             'controller_name' => 'LawsuitsController',
             'result' => ['plaintiff' => $this->plaintiff, 'defendant' => $this->defendant],
         ]);
+    }
+
+    public function getPlainResult(string $plaintiff, string $defendant): string
+    {
+
+        $this->process($plaintiff, $defendant);
+
+        // Renderizo en una variable
+        $loader = new \Twig\Loader\FilesystemLoader('templates/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('lawsuits/index.html.twig');
+
+        $result =  $template->render([
+            'controller_name' => 'LawsuitsController',
+            'result' => ['plaintiff' => $this->plaintiff, 'defendant' => $this->defendant],
+        ]);
+
+        // Obtengo los tagas que me interesan
+        preg_match_all("/<b class='title'>(.*?)<\/b>/s", $result, $match_title);
+        $match_title = $this->removeNonAlphanumeric($match_title[1]);
+
+        preg_match_all("/<li class='result'>(.*?)<\/li>/s", $result, $match_result);
+        $match_result = $this->removeNonAlphanumeric($match_result[1]);
+        
+        preg_match_all("/<li class='joker'>(.*?)<\/li>/s", $result, $match_joker);
+        $match_joker = $this->removeNonAlphanumeric($match_joker[1]);
+
+        // Formo respueste en modo texto
+        $result = "{$match_title[0]}\n  - {$match_result[0]}\n  - {$match_result[1]}\n\n{$match_title[1]}\n  - {$match_joker[0]}\n  - {$match_joker[1]}";
+        
+        return $result;
+    }
+
+    private function removeNonAlphanumeric(array $data)
+    {
+
+        foreach($data as &$value) {
+            $value = preg_replace("/[^A-Za-z0-9 ]/", '', $value);
+        }
+
+        return $data;
 
     }
 
@@ -41,7 +82,6 @@ class LawsuitsController extends AbstractController
 
         $this->plaintiff = $this->analyzeJoker($this->plaintiff, $this->defendant["points"] - $this->plaintiff["points"]);
         $this->defendant = $this->analyzeJoker($this->defendant, $this->plaintiff["points"] - $this->defendant["points"]);
-
     }
 
     private function getRols(): array
@@ -86,10 +126,9 @@ class LawsuitsController extends AbstractController
                 $result["points"] = 0;
                 break;
             } else {
-                if($signature == "#"){
+                if ($signature == "#") {
                     $jokers++;
-                }                
-                else if (!($signature == "V" && $king == TRUE)) {
+                } else if (!($signature == "V" && $king == TRUE)) {
                     $result["points"] += $rols[$signature]["points"];
                 }
             }
@@ -109,7 +148,6 @@ class LawsuitsController extends AbstractController
 
         $this->plaintiff['winner'] = $this->plaintiff['points'] - $this->defendant['points'];
         $this->defendant['winner'] = $this->defendant['points'] - $this->plaintiff['points'];
-        
     }
 
     private function analyzeJoker(array $parsedSignatures, int $minimumToWin): array

@@ -38,10 +38,11 @@ class TestconsoleCommand extends Command
             // ...
         }*/
 
-     
+        $controler = new LawsuitsController();
+        $result = $controler->getPlainResult($plaintiff, $defendant);
+        $io->info($result);
 
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('Pass --help to see your options.');
 
         return Command::SUCCESS;
     }
