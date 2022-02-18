@@ -6,12 +6,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\LawsuitsService;
 
 class LawsuitsController extends AbstractController
 {
 
     private array $plaintiff;
     private array $defendant;
+    private LawsuitsService $lawsuitsService;
+
+    public function __construct(LawsuitsService $lawsuitsService)
+    {
+
+        $this->lawsuitsService = $lawsuitsService;
+
+    }
 
     /**
      * @Route("/lawsuits", name="lawsuits")
@@ -97,31 +106,11 @@ class LawsuitsController extends AbstractController
         $this->defendant = $this->analyzeJoker($this->defendant, $this->plaintiff["points"] - $this->defendant["points"]);
     }
 
-    private function getRols(): array
-    {
-
-        $retval = array();
-
-        $retval["K"]["points"] = 5;
-        $retval["K"]["name"] = "King";
-
-        $retval["N"]["points"] = 2;
-        $retval["N"]["name"] = "Notary";
-
-        $retval["V"]["points"] = 1;
-        $retval["V"]["name"] = "Validator";
-
-        $retval["#"]["points"] = 0;
-        $retval["#"]["name"] = "Joker";
-
-        return $retval;
-    }
-
     private function parseSignatures(string $signatures): array
     {
 
         $signatures_array = str_split($signatures);
-        $rols = $this->getRols();
+        $rols = $this->lawsuitsService->getAll();
         $jokers = 0;
 
         $king = strpos($signatures, "K") !== false ? true : false;
@@ -147,7 +136,7 @@ class LawsuitsController extends AbstractController
             }
         }
 
-        // Solo una Joker es permitido
+        // Solo un Joker es permitido
         if ($jokers > 1) {
             $result["error"] = 1;
             $result["points"] = 0;
@@ -175,10 +164,7 @@ class LawsuitsController extends AbstractController
         $to_win = array();
 
         // Roles ordenados por puntos
-        $rols = $this->getRols();
-        uasort($rols, function ($a, $b) {
-            return $a['points'] - $b['points'];
-        });
+        $rols = $this->lawsuitsService->getAll('points');
 
         // Ya es un ganador, analizo maximo alcanzable
         if ($minimumToWin < 0) {
