@@ -6,19 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\LawsuitsService;
+use App\Service\RolsService;
 
 class LawsuitsController extends AbstractController
 {
 
     private array $plaintiff;
     private array $defendant;
-    private LawsuitsService $lawsuitsService;
+    private RolsService $rolsService;
 
-    public function __construct(LawsuitsService $lawsuitsService)
+    public function __construct(RolsService $lawsuitsService)
     {
 
-        $this->lawsuitsService = $lawsuitsService;
+        $this->rolsService = $lawsuitsService;
 
     }
 
@@ -110,7 +110,7 @@ class LawsuitsController extends AbstractController
     {
 
         $signatures_array = str_split($signatures);
-        $rols = $this->lawsuitsService->getAll();
+        $rols = $this->rolsService->getAll();
         $jokers = 0;
 
         $king = strpos($signatures, "K") !== false ? true : false;
@@ -164,7 +164,7 @@ class LawsuitsController extends AbstractController
         $to_win = array();
 
         // Roles ordenados por puntos
-        $rols = $this->lawsuitsService->getAll('points');
+        $rols = $this->rolsService->getAll('points');
 
         // Ya es un ganador, analizo maximo alcanzable
         if ($minimumToWin < 0) {

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class LawsuitsService
+class RolsService
 {
     private $rols;
 
