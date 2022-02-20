@@ -19,6 +19,7 @@ class LawsuitsController extends AbstractController
     {
 
         $this->rolsService = $lawsuitsService;
+
     }
 
     /**
@@ -27,8 +28,8 @@ class LawsuitsController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $plaintiff = strtoupper($request->query->get('plaintiff'));
-        $defendant = strtoupper($request->query->get('defendant'));
+        $plaintiff = $request->query->get('plaintiff');
+        $defendant = $request->query->get('defendant');
 
         $this->process($plaintiff, $defendant);
 
@@ -41,7 +42,7 @@ class LawsuitsController extends AbstractController
     public function getPlainResult(string $plaintiff, string $defendant): string
     {
 
-        $this->process(strtoupper($plaintiff), strtoupper($defendant));
+        $this->process($plaintiff, $defendant);
 
         // Renderizo en una variable
         $loader = new \Twig\Loader\FilesystemLoader('templates/');
@@ -53,7 +54,7 @@ class LawsuitsController extends AbstractController
             'result' => ['plaintiff' => $this->plaintiff, 'defendant' => $this->defendant],
         ]);
 
-        // Obtengo los tagas que me interesan
+        // Obtengo los tags que me interesan
         preg_match_all("/<b class='title'>(.*?)<\/b>/s", $result, $match_title);
         $match_title = $this->removeNonAlphanumeric($match_title[1]);
 
@@ -92,16 +93,17 @@ class LawsuitsController extends AbstractController
         return $data;
     }
 
-    private function process(string $plaintiff, string $defendant)
+    private function process(string $plaintiff, string $defendant): void
     {
 
-        $this->plaintiff = $this->parseSignatures($plaintiff);
-        $this->defendant = $this->parseSignatures($defendant);
+        $this->plaintiff = $this->parseSignatures(strtoupper($plaintiff));
+        $this->defendant = $this->parseSignatures(strtoupper($defendant));
 
         $this->setWinner($this->plaintiff, $this->defendant);
 
         $this->plaintiff = $this->analyzeJoker($this->plaintiff, $this->defendant["points"] - $this->plaintiff["points"]);
         $this->defendant = $this->analyzeJoker($this->defendant, $this->plaintiff["points"] - $this->defendant["points"]);
+
     }
 
     private function parseSignatures(string $signatures): array
@@ -143,11 +145,12 @@ class LawsuitsController extends AbstractController
         return $result;
     }
 
-    private function setWinner()
+    private function setWinner(): void
     {
 
         $this->plaintiff['winner'] = $this->plaintiff['points'] - $this->defendant['points'];
         $this->defendant['winner'] = $this->defendant['points'] - $this->plaintiff['points'];
+
     }
 
     private function analyzeJoker(array $parsedSignatures, int $minimumToWin): array

@@ -43,7 +43,7 @@ class LawsuitsCommand extends Command
         $result = $controler->getPlainResult($plaintiff, $defendant);
         $io->info($result);
 
-        $io->success('FInalizado. --help para mas opciones.');
+        $io->success('Finalizado OK. --help para mas opciones.');
 
         return Command::SUCCESS;
     }

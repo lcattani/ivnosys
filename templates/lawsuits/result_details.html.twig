@@ -1,6 +1,6 @@
 {% if result[player]['error'] == 0 %}
 {% set status = result[player]['winner'] > 0 ? "won ✅" : (result[player]['winner'] < 0 ? "lost ❌" : "tie ➖" ) %}
-    <li class='result'>{{ player|capitalize }} signatures is '{{result[player]['signatures']}}', they have {{result[player]['points']}} points and they {{status}}.</li>
+    <li class='result'>{{ player|capitalize }} signatures are '{{result[player]['signatures']}}', they have {{result[player]['points']}} points and {{status}}.</li>
 {% else %}
-    <li class='result'>{{ player|capitalize }} signatures '{{result[player]['signatures']}}' are invalid ⚠️.</li>
+    <li class='result'>{{ player|capitalize }} signatures are '{{result[player]['signatures']}}' are invalid ⚠️.</li>
 {% endif %}
